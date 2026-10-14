@@ -6127,3 +6127,1032 @@ select {
     animation: none;
   }
 }
+/* =========================================================
+   APP.CSS — ANIMATED HERO WITH ROTATING DRESSES
+   Add this to your existing App.css or replace it.
+   The classes prefixed with .sf- are for the animated hero.
+   Existing classes from your app (e.g., .hp-) may still be
+   present in other files. This file includes both the new
+   hero styles and re-usable button/section styles.
+========================================================= */
+
+/* ---------- BASE ---------- */
+.sf-app {
+  position: relative;
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #f5f5f5;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background 0.8s ease;
+}
+
+/* Global colour wash that fades behind everything */
+.sf-bg-wash {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: background 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.45s ease;
+}
+
+/* Make sure main content sits above the wash */
+.sf-app > main,
+.sf-app > header,
+.sf-app > footer {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------- BUTTONS ---------- */
+.sf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    background 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
+}
+
+.sf-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.sf-btn-primary {
+  background: #c8f169;
+  color: #0d2e1f;
+}
+
+.sf-btn-ghost {
+  background: transparent;
+  border-color: currentColor;
+  color: inherit;
+}
+
+.sf-btn-light {
+  background: #f5f5f5;
+  color: #0a0a0a;
+}
+
+.sf-btn-outline {
+  background: transparent;
+  border-color: currentColor;
+  color: inherit;
+}
+
+/* ---------- HERO SECTION ---------- */
+.sf-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 6vw 80px;
+  overflow: hidden;
+  transition: background 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sf-hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+/* Colour orbs for depth */
+.sf-hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  transition: background 0.9s ease;
+}
+
+.sf-hero-orb-1 {
+  width: 420px;
+  height: 420px;
+  top: -100px;
+  left: -120px;
+}
+
+.sf-hero-orb-2 {
+  width: 560px;
+  height: 560px;
+  bottom: -180px;
+  right: -160px;
+}
+
+/* ---------- HERO COPY ---------- */
+.sf-hero-copy {
+  max-width: 620px;
+}
+
+.sf-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  transition: color 0.6s ease;
+}
+
+.sf-hero-eyebrow-line {
+  width: 40px;
+  height: 2px;
+  display: inline-block;
+  transition: background 0.6s ease;
+}
+
+.sf-hero-title {
+  font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  transition: color 0.6s ease;
+}
+
+.sf-hero-title em {
+  font-style: italic;
+  font-weight: 400;
+  transition: color 0.6s ease;
+}
+
+.sf-hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 36px;
+  transition: color 0.6s ease;
+}
+
+.sf-hero-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+/* Stats */
+.sf-hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 0.8rem;
+  transition: color 0.6s ease;
+}
+
+.sf-hero-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sf-hero-stats strong {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.sf-hero-stats span {
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+}
+
+.sf-divider {
+  width: 1px;
+  height: 30px;
+  opacity: 0.3;
+  transition: background 0.6s ease;
+}
+
+/* ---------- HERO VISUAL / DRESS STAGE ---------- */
+.sf-hero-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.sf-dress-stage {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 620px;
+  perspective: 1200px;
+}
+
+/* Each dress slot */
+.sf-dress-slot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.7s ease, filter 0.7s ease;
+  will-change: transform, opacity;
+}
+
+/* Active dress — front and centre */
+.sf-dress-slot.slot-active {
+  transform: translateX(0) scale(1) rotateY(0deg);
+  opacity: 1;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.45));
+  z-index: 3;
+  pointer-events: auto;
+}
+
+/* Next dress — waiting to the right */
+.sf-dress-slot.slot-next {
+  transform: translateX(70%) scale(0.7) rotateY(-25deg);
+  opacity: 0;
+  filter: blur(4px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Previous dress — exiting to the left */
+.sf-dress-slot.slot-prev {
+  transform: translateX(-70%) scale(0.7) rotateY(25deg);
+  opacity: 0;
+  filter: blur(4px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hidden */
+.sf-dress-slot.slot-hidden {
+  transform: translateX(0) scale(0.5);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The dress wrapper */
+.sf-dress-wrap {
+  position: relative;
+  width: 320px;
+  height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sf-dress-float 6s ease-in-out infinite;
+}
+
+.sf-dress-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: filter 0.5s ease;
+}
+
+.sf-dress-wrap.is-active .sf-dress-svg {
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35));
+}
+
+/* Floating label ring */
+.sf-dress-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 2px dashed currentColor;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: sf-ring-spin 18s linear infinite;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  transition: border-color 0.5s ease;
+}
+
+.sf-dress-ring span {
+  position: absolute;
+  top: -12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  transition: color 0.5s ease;
+}
+
+/* Hero badge */
+.sf-hero-badge {
+  position: absolute;
+  bottom: 24px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+/* Dots */
+.sf-hero-dots {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sf-hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  padding: 0;
+}
+
+.sf-hero-dot:hover {
+  transform: scale(1.3);
+}
+
+.sf-hero-dot.is-active {
+  width: 32px;
+  border-radius: 999px;
+}
+
+/* Colour name label */
+.sf-hero-colour-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  transition: color 0.6s ease;
+  opacity: 0.9;
+}
+
+/* ---------- HERO TICKER ---------- */
+.sf-hero-ticker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+  z-index: 4;
+}
+
+.sf-hero-ticker-track {
+  display: flex;
+  gap: 32px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: sf-ticker 30s linear infinite;
+  transition: color 0.6s ease;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes sf-dress-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes sf-ring-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes sf-ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1024px) {
+  .sf-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .sf-hero-visual {
+    order: -1;
+  }
+
+  .sf-dress-stage {
+    height: 460px;
+    max-width: 320px;
+  }
+
+  .sf-dress-wrap {
+    width: 240px;
+    height: 420px;
+  }
+
+  .sf-dress-ring {
+    width: 280px;
+    height: 280px;
+  }
+
+  .sf-hero {
+    padding: 100px 5vw 100px;
+  }
+
+  .sf-hero-title {
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .sf-hero-stats {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .sf-divider {
+    display: none;
+  }
+
+  .sf-hero-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .sf-btn {
+    width: 100%;
+  }
+
+  .sf-dress-stage {
+    height: 380px;
+    max-width: 260px;
+  }
+
+  .sf-dress-wrap {
+    width: 200px;
+    height: 350px;
+  }
+
+  .sf-dress-ring {
+    width: 230px;
+    height: 230px;
+  }
+
+  .sf-hero-badge {
+    right: 0;
+    bottom: 8px;
+  }
+
+  .sf-hero-colour-name {
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   RE-USABLE SECTION STYLES (from original app, kept for
+   compatibility with other components)
+========================================================= */
+
+.sf-logos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 40px 6vw;
+  background: #fafafa;
+  color: #0a0a0a;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.sf-logos-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  opacity: 0.55;
+}
+
+.sf-section {
+  padding: 100px 6vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sf-section-alt {
+  background: #fafafa;
+}
+
+.sf-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.sf-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.sf-section-head h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+  color: #0a0a0a;
+}
+
+.sf-section-head p {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+}
+
+.sf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  cursor: pointer;
+  padding: 0;
+  transition: gap 0.3s ease;
+}
+
+.sf-link:hover {
+  gap: 10px;
+}
+
+.sf-product-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .sf-product-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .sf-product-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Editorial */
+.sf-editorial {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  min-height: 560px;
+  background: #0a0a0a;
+  color: #f5f5f5;
+}
+
+.sf-editorial-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sf-editorial-content {
+  padding: 80px 6vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sf-editorial-content h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 12px 0 20px;
+}
+
+.sf-editorial-content p {
+  color: #b5b5b5;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.sf-editorial-tags {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #888;
+}
+
+@media (max-width: 900px) {
+  .sf-editorial {
+    grid-template-columns: 1fr;
+  }
+
+  .sf-editorial-image {
+    min-height: 300px;
+  }
+}
+
+/* Spotlight */
+.sf-spotlight {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding: 100px 6vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sf-spotlight-image {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+}
+
+.sf-spotlight-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sf-spotlight-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #fff;
+  color: #0a0a0a;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.sf-spotlight-content h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  margin: 12px 0 16px;
+  color: #0a0a0a;
+}
+
+.sf-spotlight-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #c39a20;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.sf-spotlight-rating span {
+  color: #888;
+}
+
+.sf-spotlight-desc {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.sf-spotlight-price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.sf-spotlight-price strong {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0a0a0a;
+}
+
+.sf-spotlight-price del {
+  color: #999;
+}
+
+.sf-spotlight-cta {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.sf-spotlight-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.sf-spotlight-meta > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  .sf-spotlight {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Badge hot */
+.sf-badge-hot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #ff4d1c;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+/* Lookbook */
+.sf-lookbook {
+  padding: 100px 6vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sf-lookbook-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 280px);
+  gap: 16px;
+}
+
+.sf-look-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.sf-look-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.sf-look-item:hover img {
+  transform: scale(1.06);
+}
+
+.sf-look-item span {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+.sf-look-1 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.sf-look-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 900px) {
+  .sf-lookbook-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 200px);
+  }
+
+  .sf-look-1 {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .sf-look-2 {
+    grid-column: span 2;
+  }
+}
+
+/* Story */
+.sf-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding: 100px 6vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sf-story-content h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 12px 0 20px;
+  color: #0a0a0a;
+}
+
+.sf-story-content p {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.sf-story-stats {
+  display: flex;
+  gap: 40px;
+  margin: 32px 0;
+  flex-wrap: wrap;
+}
+
+.sf-story-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sf-story-stats strong {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0a0a0a;
+}
+
+.sf-story-stats span {
+  font-size: 0.8rem;
+  color: #888;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sf-story-image {
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+}
+
+.sf-story-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .sf-story {
+    grid-template-columns: 1fr;
+  }
+
+  .sf-story-image {
+    order: -1;
+  }
+}
+
+/* Instagram */
+.sf-insta {
+  padding: 100px 6vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sf-insta-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.sf-insta-tile {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  display: block;
+}
+
+.sf-insta-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.sf-insta-tile:hover img {
+  transform: scale(1.08);
+}
+
+.sf-insta-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.sf-insta-tile:hover .sf-insta-overlay {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .sf-insta-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* Dress image */
+.sf-dress-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35));
+  transition: filter 0.5s ease;
+}
+
+.sf-dress-wrap.is-active .sf-dress-img {
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.55));
+}

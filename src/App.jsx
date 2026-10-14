@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -53,12 +53,217 @@ import {
 import "./App.css";
 
 /* =========================================================
+   DRESS ROTATION — 3 colours × 3 images each = 9 slides
+   Each slide inherits its colour theme from the group.
+========================================================= */
+
+const THEMES = {
+  green: {
+    id: "green",
+    name: "GREEN",
+    color: "#174d35",
+    colorLight: "#1f6b4a",
+    colorDark: "#0d2e1f",
+    accent: "#c8f169",
+    accentSoft: "#e8ffb0",
+    textOnColor: "#f0fff4",
+    tag: "GREEN EDIT",
+  },
+  red: {
+    id: "red",
+    name: "RED",
+    color: "#851e2a",
+    colorLight: "#a82636",
+    colorDark: "#5c131c",
+    accent: "#ffd5cc",
+    accentSoft: "#ffe8e3",
+    textOnColor: "#fff5f3",
+    tag: "RED EDIT",
+  },
+  yellow: {
+    id: "yellow",
+    name: "YELLOW",
+    color: "#c39a20",
+    colorLight: "#dbb42e",
+    colorDark: "#8f7014",
+    accent: "#fff3c2",
+    accentSoft: "#fffae0",
+    textOnColor: "#fffdf5",
+    tag: "YELLOW EDIT",
+  },
+};
+
+/* Each slide = one image + its colour theme + its copy */
+const DRESSES = [
+  /* -------- GREEN GROUP -------- */
+  {
+    id: "green-1",
+    theme: THEMES.green,
+    image: "/dresses/green (1).png",
+    eyebrow: "THE NEW SEASON",
+    title: "Own your",
+    highlight: "moment.",
+    description:
+      "Confident looks. Effortless elegance. Discover pieces that make every entrance unforgettable.",
+    label: "THE CONFIDENCE EDIT",
+  },
+  {
+    id: "green-2",
+    theme: THEMES.green,
+    image: "/dresses/green (2).png",
+    eyebrow: "EFFORTLESSLY YOU",
+    title: "Dress like you",
+    highlight: "mean it.",
+    description:
+      "Structured silhouettes, soft movement, and quiet confidence — made for the woman who leads.",
+    label: "THE CONFIDENCE EDIT",
+  },
+  {
+    id: "green-3",
+    theme: THEMES.green,
+    image: "/dresses/green (3).png",
+    eyebrow: "NATURALLY BOLD",
+    title: "Stand out",
+    highlight: "quietly.",
+    description:
+      "Deep green tones that flatter every skin tone. Understated luxury for everyday moments.",
+    label: "THE CONFIDENCE EDIT",
+  },
+
+  /* -------- RED GROUP -------- */
+  {
+    id: "red-1",
+    theme: THEMES.red,
+    image: "/dresses/red (1).png",
+    eyebrow: "MAKE A STATEMENT",
+    title: "Wear your",
+    highlight: "power.",
+    description:
+      "Bold colour, beautiful silhouettes and statement pieces designed to turn ordinary days into occasions.",
+    label: "THE STATEMENT EDIT",
+  },
+  {
+    id: "red-2",
+    theme: THEMES.red,
+    image: "/dresses/red (2).png",
+    eyebrow: "TURN HEADS",
+    title: "Enter like",
+    highlight: "fire.",
+    description:
+      "The red edit is unapologetic — figure-hugging, dramatic, and built to be remembered.",
+    label: "THE STATEMENT EDIT",
+  },
+  {
+    id: "red-3",
+    theme: THEMES.red,
+    image: "/dresses/red (3).png",
+    eyebrow: "CLASSIC RED",
+    title: "Own the",
+    highlight: "room.",
+    description:
+      "Timeless red silhouettes that work for date night, dinner, or any night that matters.",
+    label: "THE STATEMENT EDIT",
+  },
+
+  /* -------- YELLOW GROUP -------- */
+  {
+    id: "yellow-1",
+    theme: THEMES.yellow,
+    image: "/dresses/yellow (1).png",
+    eyebrow: "A LITTLE MORE SUNSHINE",
+    title: "Brighten",
+    highlight: "your style.",
+    description:
+      "Fresh looks, standout details and feel-good fashion for every version of you.",
+    label: "THE SUNSHINE EDIT",
+  },
+  {
+    id: "yellow-2",
+    theme: THEMES.yellow,
+    image: "/dresses/yellow (2).png",
+    eyebrow: "GOLDEN HOUR",
+    title: "Glow in",
+    highlight: "every room.",
+    description:
+      "Warm, golden, radiant — pieces that carry their own light wherever you go.",
+    label: "THE SUNSHINE EDIT",
+  },
+  {
+    id: "yellow-3",
+    theme: THEMES.yellow,
+    image: "/dresses/yellow (3).png",
+    eyebrow: "FEEL-GOOD FASHION",
+    title: "Sunshine,",
+    highlight: "always.",
+    description:
+      "Yellow edits that lift your mood and your outfit in one move.",
+    label: "THE SUNSHINE EDIT",
+  },
+];
+
+const ROTATION_MS = 600; // 5.5 seconds per dress
+
+/* =========================================================
+   DRESS FIGURE — shows your actual dress image
+========================================================= */
+function DressFigure({ dress, active }) {
+  const t = dress.theme;
+  return (
+    <div className={`sf-dress-wrap ${active ? "is-active" : ""}`}>
+      <img
+        className="sf-dress-img"
+        src={dress.image}
+        alt={`${t.name} dress`}
+        draggable="false"
+      />
+
+      {/* Floating label ring */}
+      <div className="sf-dress-ring" style={{ borderColor: t.accent }}>
+        <span style={{ color: t.accent }}>{t.name}</span>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
    MAIN APP
 ========================================================= */
 export default function App() {
   /* ---------- NAV ---------- */
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  /* ---------- ANIMATED HERO ---------- */
+  const [activeHero, setActiveHero] = useState(0);
+  const [heroPaused, setHeroPaused] = useState(false);
+  const [heroTransition, setHeroTransition] = useState(false);
+  const heroTimer = useRef(null);
+
+  const currentSlide = DRESSES[activeHero];
+  const currentTheme = currentSlide.theme;
+  const currentHero = currentTheme; // keep old variable name working
+
+  // auto-rotate
+  useEffect(() => {
+    if (heroPaused) return undefined;
+    heroTimer.current = window.setTimeout(() => {
+      setHeroTransition(true);
+      window.setTimeout(() => {
+        setActiveHero((c) => (c + 1) % DRESSES.length);
+        setHeroTransition(false);
+      }, 450);
+    }, ROTATION_MS);
+    return () => window.clearTimeout(heroTimer.current);
+  }, [activeHero, heroPaused]);
+
+  function goToHero(index) {
+    if (index === activeHero) return;
+    setHeroTransition(true);
+    window.setTimeout(() => {
+      setActiveHero(index);
+      setHeroTransition(false);
+    }, 450);
+  }
 
   /* ---------- SHOP FILTERS ---------- */
   const [searchTerm, setSearchTerm] = useState("");
@@ -465,6 +670,15 @@ export default function App() {
   ========================================================= */
   return (
     <div className="sf-app">
+      {/* ====================== GLOBAL COLOR WASH ====================== */}
+      <div
+        className="sf-bg-wash"
+        style={{
+          background: currentTheme.color,
+          opacity: heroTransition ? 0 : 1,
+        }}
+      />
+
       <Header
         cartCount={cartCount}
         wishlistCount={wishlist.length}
@@ -480,85 +694,214 @@ export default function App() {
         mobileMenuOpen={mobileMenuOpen}
         onToggleMobileMenu={() => setMobileMenuOpen((v) => !v)}
         onCloseMobileMenu={() => setMobileMenuOpen(false)}
+        heroAccent={currentTheme.accent}
+        heroColor={currentTheme.color}
       />
 
       <main>
         {/* ==============================
-            1. HERO — split with big product
+            1. ANIMATED HERO — ROTATING DRESSES
            ============================== */}
-        <section className="hp-hero" id="home">
-          <div className="hp-hero-left">
-            <div className="hp-hero-eyebrow">
-              <span className="hp-hero-eyebrow-line" />
-              NEW SEASON · 2026 EDIT
+        <section
+          className="sf-hero"
+          id="home"
+          style={{
+            background: `linear-gradient(135deg, ${currentTheme.colorDark} 0%, ${currentTheme.color} 55%, ${currentTheme.colorLight} 100%)`,
+          }}
+          onMouseEnter={() => setHeroPaused(true)}
+          onMouseLeave={() => setHeroPaused(false)}
+        >
+          {/* animated colour orbs */}
+          <div
+            className="sf-hero-orb sf-hero-orb-1"
+            style={{ background: currentTheme.accent, opacity: 0.18 }}
+          />
+          <div
+            className="sf-hero-orb sf-hero-orb-2"
+            style={{ background: currentTheme.colorLight, opacity: 0.35 }}
+          />
+
+          <div className="sf-hero-inner">
+            {/* LEFT — copy */}
+            <div className="sf-hero-copy">
+              <div
+                className="sf-hero-eyebrow"
+                style={{ color: currentTheme.accent }}
+              >
+                <span
+                  className="sf-hero-eyebrow-line"
+                  style={{ background: currentTheme.accent }}
+                />
+                {currentSlide.eyebrow}
+              </div>
+
+              <h1
+                className="sf-hero-title"
+                style={{ color: currentTheme.textOnColor }}
+              >
+                {currentSlide.title}
+                <br />
+                <em style={{ color: currentTheme.accent }}>
+                  {currentSlide.highlight}
+                </em>
+              </h1>
+
+              <p
+                className="sf-hero-sub"
+                style={{ color: currentTheme.textOnColor, opacity: 0.85 }}
+              >
+                {currentSlide.description}
+              </p>
+
+              <div className="sf-hero-cta">
+                <button
+                  className="sf-btn sf-btn-primary"
+                  style={{
+                    background: currentTheme.accent,
+                    color: currentTheme.colorDark,
+                  }}
+                  onClick={() => openShop("All")}
+                >
+                  SHOP THE EDIT <ArrowRight size={16} />
+                </button>
+                <button
+                  className="sf-btn sf-btn-ghost"
+                  style={{
+                    color: currentTheme.textOnColor,
+                    borderColor: currentTheme.accent,
+                  }}
+                  onClick={() => scrollToSection("collections")}
+                >
+                  BROWSE COLLECTIONS
+                </button>
+              </div>
+
+              {/* stats */}
+              <div
+                className="sf-hero-stats"
+                style={{ color: currentTheme.textOnColor }}
+              >
+                <div>
+                  <strong>12K+</strong>
+                  <span>Happy customers</span>
+                </div>
+                <div
+                  className="sf-divider"
+                  style={{ background: currentTheme.accent }}
+                />
+                <div>
+                  <strong>4.9★</strong>
+                  <span>Average rating</span>
+                </div>
+                <div
+                  className="sf-divider"
+                  style={{ background: currentTheme.accent }}
+                />
+                <div>
+                  <strong>48h</strong>
+                  <span>Fast delivery</span>
+                </div>
+              </div>
             </div>
 
-            <h1 className="hp-hero-title">
-              Dress like you
-              <br />
-              <em>mean it.</em>
-            </h1>
+            {/* RIGHT — rotating dresses */}
+            <div className="sf-hero-visual">
+              <div className="sf-dress-stage">
+                {DRESSES.map((dress, index) => {
+                  const isActive = index === activeHero;
+                  const isNext =
+                    index === (activeHero + 1) % DRESSES.length;
+                  const isPrev =
+                    index ===
+                    (activeHero - 1 + DRESSES.length) % DRESSES.length;
 
-            <p className="hp-hero-sub">
-              Thoughtfully curated fashion for men and women who know
-              exactly who they are. Premium pieces, delivered across
-              Kenya.
-            </p>
+                  return (
+                    <div
+                      key={dress.id}
+                      className={`sf-dress-slot ${
+                        isActive
+                          ? "slot-active"
+                          : isNext
+                          ? "slot-next"
+                          : isPrev
+                          ? "slot-prev"
+                          : "slot-hidden"
+                      }`}
+                    >
+                      <DressFigure dress={dress} active={isActive} />
+                    </div>
+                  );
+                })}
 
-            <div className="hp-hero-cta">
-              <button
-                className="hp-btn hp-btn-primary"
-                onClick={() => openShop("All")}
-              >
-                SHOP THE EDIT <ArrowRight size={16} />
-              </button>
-              <button
-                className="hp-btn hp-btn-ghost"
-                onClick={() => scrollToSection("collections")}
-              >
-                BROWSE COLLECTIONS
-              </button>
-            </div>
-
-            <div className="hp-hero-stats">
-              <div>
-                <strong>12K+</strong>
-                <span>Happy customers</span>
+                {/* rotating badge */}
+                <div
+                  className="sf-hero-badge"
+                  style={{
+                    background: currentTheme.accent,
+                    color: currentTheme.colorDark,
+                  }}
+                >
+                  <Sparkles size={14} />
+                  {currentTheme.tag}
+                </div>
               </div>
-              <div className="hp-divider" />
-              <div>
-                <strong>4.9★</strong>
-                <span>Average rating</span>
+
+              {/* dots — one per dress */}
+              <div className="sf-hero-dots">
+                {DRESSES.map((dress, index) => (
+                  <button
+                    key={dress.id}
+                    className={`sf-hero-dot ${
+                      index === activeHero ? "is-active" : ""
+                    }`}
+                    style={{
+                      background:
+                        index === activeHero
+                          ? dress.theme.accent
+                          : "rgba(255,255,255,0.35)",
+                      boxShadow:
+                        index === activeHero
+                          ? `0 0 12px ${dress.theme.accent}`
+                          : "none",
+                    }}
+                    onClick={() => goToHero(index)}
+                    aria-label={`Show ${dress.theme.name} dress ${index + 1}`}
+                  />
+                ))}
               </div>
-              <div className="hp-divider" />
-              <div>
-                <strong>48h</strong>
-                <span>Fast delivery</span>
+
+              {/* colour name + slide counter */}
+              <div
+                className="sf-hero-colour-name"
+                style={{ color: currentTheme.accent }}
+              >
+                {currentTheme.name} · {activeHero + 1} / {DRESSES.length}
               </div>
             </div>
           </div>
 
-          <div className="hp-hero-right">
-            <div className="hp-hero-image-stack">
-              <img
-                className="hp-hero-img hp-hero-img-main"
-                src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=90"
-                alt="Fashion editorial"
-              />
-              <img
-                className="hp-hero-img hp-hero-img-sub"
-                src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=90"
-                alt="Fashion detail"
-              />
-              <div className="hp-hero-float-card">
-                <div className="hp-hero-float-icon">
-                  <TrendingUp size={18} />
-                </div>
-                <div>
-                  <strong>Trending now</strong>
-                  <span>+2.4K this week</span>
-                </div>
-              </div>
+          {/* bottom ticker */}
+          <div className="sf-hero-ticker">
+            <div
+              className="sf-hero-ticker-track"
+              style={{ color: currentTheme.textOnColor }}
+            >
+              <span>NEW SEASON 2026</span>
+              <span>•</span>
+              <span>FREE DELIVERY OVER KES 5,000</span>
+              <span>•</span>
+              <span>EASY RETURNS</span>
+              <span>•</span>
+              <span>SHOP THE EDIT</span>
+              <span>•</span>
+              <span>NEW SEASON 2026</span>
+              <span>•</span>
+              <span>FREE DELIVERY OVER KES 5,000</span>
+              <span>•</span>
+              <span>EASY RETURNS</span>
+              <span>•</span>
+              <span>SHOP THE EDIT</span>
+              <span>•</span>
             </div>
           </div>
         </section>
@@ -566,9 +909,9 @@ export default function App() {
         {/* ==============================
             2. TRUST LOGOS STRIP
            ============================== */}
-        <section className="hp-logos">
+        <section className="sf-logos">
           <span>AS FEATURED IN</span>
-          <div className="hp-logos-list">
+          <div className="sf-logos-list">
             <span>VOGUE</span>
             <span>GQ</span>
             <span>ELLE</span>
@@ -585,17 +928,17 @@ export default function App() {
         <Collections onOpenShop={openShop} />
 
         {/* ==============================
-            4. EDITORIAL BREAK — BIG IMAGE
+            4. EDITORIAL BREAK
            ============================== */}
-        <section className="hp-editorial">
-          <div className="hp-editorial-image">
+        <section className="sf-editorial">
+          <div className="sf-editorial-image">
             <img
               src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1600&q=90"
               alt="Fashion editorial"
             />
           </div>
-          <div className="hp-editorial-content">
-            <span className="hp-eyebrow">THE STANLEY EDIT · VOL 01</span>
+          <div className="sf-editorial-content">
+            <span className="sf-eyebrow">THE STANLEY EDIT · VOL 01</span>
             <h2>
               Made for the way
               <br />
@@ -607,13 +950,13 @@ export default function App() {
               effortlessly you.
             </p>
             <button
-              className="hp-btn hp-btn-light"
+              className="sf-btn sf-btn-light"
               onClick={() => openShop("All")}
             >
               EXPLORE THE COLLECTION <ArrowRight size={16} />
             </button>
 
-            <div className="hp-editorial-tags">
+            <div className="sf-editorial-tags">
               <span>#EverydayLuxe</span>
               <span>#StanleyFashions</span>
               <span>#NewSeason</span>
@@ -624,22 +967,22 @@ export default function App() {
         {/* ==============================
             5. NEW ARRIVALS
            ============================== */}
-        <section className="hp-section">
-          <div className="hp-section-head">
+        <section className="sf-section">
+          <div className="sf-section-head">
             <div>
-              <span className="hp-eyebrow">JUST LANDED</span>
+              <span className="sf-eyebrow">JUST LANDED</span>
               <h2>New arrivals</h2>
               <p>Fresh drops, every week.</p>
             </div>
             <button
-              className="hp-link"
+              className="sf-link"
               onClick={() => openShop("All")}
             >
               SHOP ALL <ArrowRight size={15} />
             </button>
           </div>
 
-          <div className="hp-product-row">
+          <div className="sf-product-row">
             {newArrivals.slice(0, 4).map((product) => (
               <ProductCard
                 key={product.id}
@@ -657,46 +1000,46 @@ export default function App() {
             6. FEATURED PRODUCT SPOTLIGHT
            ============================== */}
         {heroProduct && (
-          <section className="hp-spotlight">
-            <div className="hp-spotlight-image">
+          <section className="sf-spotlight">
+            <div className="sf-spotlight-image">
               <img
                 src={heroProduct.image}
                 alt={heroProduct.name}
               />
-              <span className="hp-spotlight-badge">
+              <span className="sf-spotlight-badge">
                 <Sparkles size={14} /> EDITOR'S PICK
               </span>
             </div>
-            <div className="hp-spotlight-content">
-              <span className="hp-eyebrow">FEATURED PIECE</span>
+            <div className="sf-spotlight-content">
+              <span className="sf-eyebrow">FEATURED PIECE</span>
               <h2>{heroProduct.name}</h2>
 
-              <div className="hp-spotlight-rating">
+              <div className="sf-spotlight-rating">
                 <Star size={16} fill="currentColor" />
                 <strong>{heroProduct.rating}</strong>
                 <span>({heroProduct.reviews} reviews)</span>
               </div>
 
-              <p className="hp-spotlight-desc">
+              <p className="sf-spotlight-desc">
                 {heroProduct.description}
               </p>
 
-              <div className="hp-spotlight-price">
+              <div className="sf-spotlight-price">
                 <strong>{formatPrice(heroProduct.price)}</strong>
                 {heroProduct.oldPrice > heroProduct.price && (
                   <del>{formatPrice(heroProduct.oldPrice)}</del>
                 )}
               </div>
 
-              <div className="hp-spotlight-cta">
+              <div className="sf-spotlight-cta">
                 <button
-                  className="hp-btn hp-btn-primary"
+                  className="sf-btn sf-btn-primary"
                   onClick={() => openProduct(heroProduct)}
                 >
                   VIEW DETAILS
                 </button>
                 <button
-                  className="hp-btn hp-btn-outline"
+                  className="sf-btn sf-btn-outline"
                   onClick={() =>
                     addToCart(
                       heroProduct,
@@ -710,7 +1053,7 @@ export default function App() {
                 </button>
               </div>
 
-              <div className="hp-spotlight-meta">
+              <div className="sf-spotlight-meta">
                 <div>
                   <Package size={16} />
                   <span>Fast delivery</span>
@@ -731,19 +1074,19 @@ export default function App() {
         {/* ==============================
             7. TRENDING / POPULAR
            ============================== */}
-        <section className="hp-section hp-section-alt">
-          <div className="hp-section-head">
+        <section className="sf-section sf-section-alt">
+          <div className="sf-section-head">
             <div>
-              <span className="hp-eyebrow">MOST LOVED</span>
+              <span className="sf-eyebrow">MOST LOVED</span>
               <h2>Trending right now</h2>
               <p>What everyone's adding to their bag.</p>
             </div>
-            <div className="hp-badge-hot">
+            <div className="sf-badge-hot">
               <Flame size={14} /> HOT THIS WEEK
             </div>
           </div>
 
-          <div className="hp-product-row">
+          <div className="sf-product-row">
             {trendingProducts.slice(0, 4).map((product) => (
               <ProductCard
                 key={product.id}
@@ -760,43 +1103,47 @@ export default function App() {
         {/* ==============================
             8. LOOKBOOK GRID
            ============================== */}
-        <section className="hp-lookbook">
-          <div className="hp-section-head hp-lookbook-head">
+        <section className="sf-lookbook">
+          <div className="sf-section-head sf-lookbook-head">
             <div>
-              <span className="hp-eyebrow">THE LOOKBOOK</span>
-              <h2>Styled by us.<br />Worn by you.</h2>
+              <span className="sf-eyebrow">THE LOOKBOOK</span>
+              <h2>
+                Styled by us.
+                <br />
+                Worn by you.
+              </h2>
             </div>
             <button
-              className="hp-link"
+              className="sf-link"
               onClick={() => openShop("All")}
             >
               SEE MORE <ArrowUpRight size={15} />
             </button>
           </div>
 
-          <div className="hp-lookbook-grid">
-            <div className="hp-look-item hp-look-1">
+          <div className="sf-lookbook-grid">
+            <div className="sf-look-item sf-look-1">
               <img
                 src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1000&q=90"
                 alt="Look 1"
               />
               <span>LOOK 01</span>
             </div>
-            <div className="hp-look-item hp-look-2">
+            <div className="sf-look-item sf-look-2">
               <img
                 src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1000&q=90"
                 alt="Look 2"
               />
               <span>LOOK 02</span>
             </div>
-            <div className="hp-look-item hp-look-3">
+            <div className="sf-look-item sf-look-3">
               <img
                 src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1000&q=90"
                 alt="Look 3"
               />
               <span>LOOK 03</span>
             </div>
-            <div className="hp-look-item hp-look-4">
+            <div className="sf-look-item sf-look-4">
               <img
                 src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=90"
                 alt="Look 4"
@@ -809,9 +1156,9 @@ export default function App() {
         {/* ==============================
             9. BRAND STORY
            ============================== */}
-        <section className="hp-story">
-          <div className="hp-story-content">
-            <span className="hp-eyebrow">OUR STORY</span>
+        <section className="sf-story">
+          <div className="sf-story-content">
+            <span className="sf-eyebrow">OUR STORY</span>
             <h2>
               From Nairobi,
               <br />
@@ -828,7 +1175,7 @@ export default function App() {
               deliver straight to your door anywhere in Kenya.
             </p>
 
-            <div className="hp-story-stats">
+            <div className="sf-story-stats">
               <div>
                 <strong>2019</strong>
                 <span>Founded</span>
@@ -844,14 +1191,14 @@ export default function App() {
             </div>
 
             <button
-              className="hp-btn hp-btn-primary"
+              className="sf-btn sf-btn-primary"
               onClick={() => scrollToSection("contact")}
             >
               GET IN TOUCH <ArrowRight size={16} />
             </button>
           </div>
 
-          <div className="hp-story-image">
+          <div className="sf-story-image">
             <img
               src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1000&q=90"
               alt="Studio"
@@ -894,10 +1241,10 @@ export default function App() {
         {/* ==============================
             11. INSTAGRAM STRIP
            ============================== */}
-        <section className="hp-insta">
-          <div className="hp-section-head hp-insta-head">
+        <section className="sf-insta">
+          <div className="sf-section-head sf-insta-head">
             <div>
-              <span className="hp-eyebrow">@STANLEYFASHIONS</span>
+              <span className="sf-eyebrow">@STANLEYFASHIONS</span>
               <h2>Follow the movement</h2>
               <p>Tag us for a chance to be featured.</p>
             </div>
@@ -905,13 +1252,13 @@ export default function App() {
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
-              className="hp-link"
+              className="sf-link"
             >
               OPEN INSTAGRAM <ArrowUpRight size={15} />
             </a>
           </div>
 
-          <div className="hp-insta-grid">
+          <div className="sf-insta-grid">
             {[
               "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80",
               "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=600&q=80",
@@ -925,12 +1272,12 @@ export default function App() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noreferrer"
-                className="hp-insta-tile"
+                className="sf-insta-tile"
               >
                 <img src={src} alt={`Instagram ${index + 1}`} />
-                <span className="hp-insta-overlay">
-  <ArrowUpRight size={20} />
-</span>
+                <span className="sf-insta-overlay">
+                  <ArrowUpRight size={20} />
+                </span>
               </a>
             ))}
           </div>
@@ -1056,7 +1403,6 @@ export default function App() {
       />
 
       <Toast toast={toast} />
-      
     </div>
   );
 }

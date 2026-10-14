@@ -1,330 +1,178 @@
-
 import React, { useEffect, useState } from "react";
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUpRight,
-  Menu,
-  ShoppingBag,
-  Sparkles,
-  X,
-} from "lucide-react";
 import "./Home.css";
 
-const slides = [
-  {
-    id: "green",
-    name: "GREEN",
-    title: "Own your\nmoment.",
-    subtitle: "FRESH. BOLD. UNFORGETTABLE.",
-    description:
-      "Step into your power with statement pieces designed to make every entrance count.",
-    color: "#176b48",
-    accent: "#d5f29a",
-    category: "THE NEW COLLECTION",
-    number: "01",
-    image:
-      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1100&q=90",
-    button: "SHOP GREEN",
-  },
+const DRESSES = [
   {
     id: "red",
-    name: "RED",
-    title: "Make them\nlook twice.",
-    subtitle: "CONFIDENT. FEARLESS. ICONIC.",
-    description:
-      "Turn everyday moments into unforgettable statements with our signature red edit.",
-    color: "#a91f32",
-    accent: "#ffd7c8",
-    category: "THE STATEMENT COLLECTION",
-    number: "02",
-    image:
-      "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1100&q=90",
-    button: "SHOP RED",
+    name: "Crimson Bloom",
+    tagline: "Bold. Radiant. Unforgettable.",
+    color: "#e63946",
+    glow: "rgba(230,57,70,0.55)",
+    bg: "linear-gradient(135deg, #2b0a0e 0%, #6b1220 50%, #b91c2c 100%)",
+    accent: "#ff8fa3",
+  },
+  {
+    id: "green",
+    name: "Emerald Muse",
+    tagline: "Fresh. Alive. Effortless.",
+    color: "#2ecc71",
+    glow: "rgba(46,204,113,0.55)",
+    bg: "linear-gradient(135deg, #04241a 0%, #0f5132 50%, #1e8449 100%)",
+    accent: "#7bed9f",
   },
   {
     id: "yellow",
-    name: "YELLOW",
-    title: "Wear your\nsunshine.",
-    subtitle: "RADIANT. PLAYFUL. BEAUTIFUL.",
-    description:
-      "Bring a little sunshine everywhere you go with looks made to brighten your day.",
-    color: "#d4a51c",
-    accent: "#fff1a6",
-    category: "THE SUNSHINE COLLECTION",
-    number: "03",
-    image:
-      "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1100&q=90",
-    button: "SHOP YELLOW",
+    name: "Golden Hour",
+    tagline: "Warm. Playful. Luminous.",
+    color: "#f4c430",
+    glow: "rgba(244,196,48,0.55)",
+    bg: "linear-gradient(135deg, #2b1f03 0%, #7a5c0a 50%, #d4a017 100%)",
+    accent: "#ffe08a",
   },
 ];
 
-export default function Home() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+export default function Home({ onOpenShop, onScrollTo }) {
+  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const activeSlide = slides[activeIndex];
-
+  // Auto-rotate every 3.5s
   useEffect(() => {
     if (paused) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % slides.length);
-    }, 5500);
-
-    return () => window.clearInterval(timer);
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % DRESSES.length);
+    }, 3500);
+    return () => clearInterval(t);
   }, [paused]);
 
-  const goToSlide = (index) => {
-    setActiveIndex((index + slides.length) % slides.length);
+  const go = (dir) => {
+    setIndex((i) => (i + dir + DRESSES.length) % DRESSES.length);
   };
 
+  const active = DRESSES[index];
+
   return (
-    <main
-      className={`fashion-home theme-${activeSlide.id}`}
-      style={{
-        "--slide-color": activeSlide.color,
-        "--slide-accent": activeSlide.accent,
-      }}
+    <section
+      className="home-hero"
+      style={{ background: active.bg, "--accent": active.accent, "--glow": active.glow }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* BACKGROUND COLOR TRANSITION */}
-      <div className="fashion-background" aria-hidden="true">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`background-layer ${
-              index === activeIndex ? "background-active" : ""
-            }`}
-            style={{ backgroundColor: slide.color }}
-          />
-        ))}
-      </div>
+      {/* animated background orbs */}
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
 
-      {/* NAVIGATION */}
-      <header className="fashion-header">
-        <a
-          className="fashion-logo"
-          href="#home"
-          onClick={() => goToSlide(0)}
-        >
-          STANLEY<span>FASHIONS</span>
-          <i>.</i>
-        </a>
+      {/* LEFT — copy */}
+      <div className="hero-copy">
+        <span className="hero-eyebrow">New Season · SS Collection</span>
+        <h1 className="hero-title">
+          Dress the <span className="hero-highlight">Moment</span>
+        </h1>
+        <p className="hero-sub">
+          {active.tagline} — handcrafted silhouettes that move with you.
+        </p>
 
-        <nav className={`fashion-nav ${menuOpen ? "nav-open" : ""}`}>
-          <a href="#home" onClick={() => setMenuOpen(false)}>
-            HOME
-          </a>
-          <a href="#collection" onClick={() => setMenuOpen(false)}>
-            COLLECTION
-          </a>
-          <a href="#about" onClick={() => setMenuOpen(false)}>
-            OUR STORY
-          </a>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>
-            CONTACT
-          </a>
-        </nav>
-
-        <div className="fashion-header-actions">
-          <a href="#collection" className="header-shop-link">
-            SHOP NOW <ArrowUpRight size={15} />
-          </a>
-
+        <div className="hero-actions">
+          <button className="btn-primary" onClick={onOpenShop}>
+            Shop Collection
+          </button>
           <button
-            className="fashion-menu-toggle"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen(!menuOpen)}
+            className="btn-ghost"
+            onClick={() => onScrollTo?.("featured")}
           >
-            {menuOpen ? <X /> : <Menu />}
+            Explore Lookbook
           </button>
         </div>
-      </header>
 
-      {/* MAIN ANIMATED HERO */}
-      <section className="fashion-hero" id="home">
-        <div className="hero-copy" key={activeSlide.id}>
-          <div className="hero-eyebrow">
-            <span className="eyebrow-line" />
-            {activeSlide.category}
-            <Sparkles size={15} />
-          </div>
-
-          <h1 className="hero-title">
-            {activeSlide.title.split("\n").map((line, index) => (
-              <span key={index}>{line}</span>
-            ))}
-          </h1>
-
-          <p className="hero-subtitle">{activeSlide.subtitle}</p>
-
-          <p className="hero-description">{activeSlide.description}</p>
-
-          <div className="hero-buttons">
-            <a href="#collection" className="hero-shop-button">
-              {activeSlide.button}
-              <ArrowRight size={19} />
-            </a>
-
-            <a href="#about" className="hero-discover-button">
-              DISCOVER MORE
-              <ArrowDown size={15} />
-            </a>
-          </div>
-
-          <div className="hero-mini-note">
-            <span className="mini-note-star">✳</span>
-            STYLE THAT SPEAKS BEFORE YOU DO.
-          </div>
-        </div>
-
-        {/* MODEL ROTATION */}
-        <div className="hero-visual">
-          <div className="visual-orbit orbit-one" />
-          <div className="visual-orbit orbit-two" />
-
-          <div className="visual-color-disc" />
-
-          <span className="vertical-fashion-label">
-            STANLEY FASHIONS — EST. IN STYLE
-          </span>
-
-          <div className="model-stage" key={activeSlide.id}>
-            <div className="model-glow" />
-
-            <img
-              className="fashion-model"
-              src={activeSlide.image}
-              alt={`${activeSlide.name.toLowerCase()} fashion collection`}
-              onError={(event) => {
-                event.currentTarget.style.opacity = "0";
-              }}
-            />
-
-            <div className="model-shadow" />
-
-            <div className="model-floating-label">
-              <span className="floating-label-dot" />
-              <span>
-                THE COLOR EDIT
-                <strong>{activeSlide.name}</strong>
-              </span>
-            </div>
-          </div>
-
-          <div className="model-index">
-            <span>{activeSlide.number}</span>
-            <span className="index-divider" />
-            <span>03</span>
-          </div>
-
-          <div className="visual-bottom-note">
-            <span>NEW SEASON</span>
-            <span>NEW ENERGY</span>
-          </div>
-        </div>
-
-        {/* SLIDE SELECTOR */}
-        <div className="fashion-pagination">
-          {slides.map((slide, index) => (
+        {/* Swatches */}
+        <div className="swatch-row">
+          {DRESSES.map((d, i) => (
             <button
-              key={slide.id}
-              className={`pagination-item ${
-                index === activeIndex ? "pagination-active" : ""
-              }`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Show ${slide.name.toLowerCase()} collection`}
-              aria-pressed={index === activeIndex}
-            >
-              <span className="pagination-number">
-                {slide.number}
-              </span>
-              <span className="pagination-name">{slide.name}</span>
-              <span className="pagination-track">
-                <span
-                  className="pagination-progress"
-                  style={{
-                    animationPlayState:
-                      paused || index !== activeIndex
-                        ? "paused"
-                        : "running",
-                  }}
-                />
-              </span>
-            </button>
+              key={d.id}
+              className={`swatch ${i === index ? "active" : ""}`}
+              style={{ background: d.color }}
+              onClick={() => setIndex(i)}
+              aria-label={d.name}
+            />
           ))}
         </div>
 
-        <div className="hero-side-caption">
-          DRESS LIKE YOU MEAN IT.
-        </div>
-      </section>
-
-      {/* BOTTOM BRAND STRIP */}
-      <div className="fashion-marquee">
-        <div className="marquee-track">
-          {Array.from({ length: 4 }, (_, index) => (
-            <span key={index}>
-              YOUR STYLE. YOUR STORY. YOUR MOMENT.
-              <i>✳</i>
-              NEW LOOKS, NEW ENERGY.
-              <i>✳</i>
-            </span>
-          ))}
+        <div className="hero-meta">
+          <div>
+            <strong>{active.name}</strong>
+            <span>{active.tagline}</span>
+          </div>
+          <div className="hero-counter">
+            0{index + 1}<span>/0{DRESSES.length}</span>
+          </div>
         </div>
       </div>
 
-      {/* COLLECTION DESTINATION */}
-      <section className="collection-preview" id="collection">
-        <div>
-          <span className="section-kicker">FIND YOUR COLOR</span>
-          <h2>One mood. Three statements.</h2>
-          <p>
-            Explore the color edits and find the look that feels like you.
-          </p>
-        </div>
+      {/* RIGHT — rotating dress carousel */}
+      <div className="hero-stage">
+        <div className="stage-ring" />
 
-        <div className="collection-color-buttons">
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              className="collection-color-button"
-              onClick={() => {
-                goToSlide(index);
-                document
-                  .getElementById("home")
-                  ?.scrollIntoView({ behavior: "smooth" });
+        <div
+          className="carousel"
+          style={{ transform: `rotateY(${-index * 120}deg)` }}
+        >
+          {DRESSES.map((d, i) => (
+            <div
+              key={d.id}
+              className={`dress-card ${i === index ? "is-active" : ""}`}
+              style={{
+                transform: `rotateY(${i * 120}deg) translateZ(240px)`,
+                "--dress": d.color,
+                "--dress-glow": d.glow,
               }}
             >
-              <span style={{ backgroundColor: slide.color }} />
-              {slide.name}
-              <ArrowUpRight size={16} />
-            </button>
+              <DressSVG color={d.color} accent={d.accent} />
+              <span className="dress-label">{d.name}</span>
+            </div>
           ))}
         </div>
-      </section>
 
-      <section className="fashion-about" id="about">
-        <span>STANLEY FASHIONS</span>
-        <p>Fashion is not just what you wear. It's how you show up.</p>
-      </section>
+        {/* controls */}
+        <button className="nav-arrow left" onClick={() => go(-1)} aria-label="Previous">
+          ‹
+        </button>
+        <button className="nav-arrow right" onClick={() => go(1)} aria-label="Next">
+          ›
+        </button>
+      </div>
+    </section>
+  );
+}
 
-      <footer className="fashion-footer" id="contact">
-        <a className="fashion-logo footer-logo" href="#home">
-          STANLEY<span>FASHIONS</span><i>.</i>
-        </a>
-        <p>Own your look. Own your moment.</p>
-        <a href="#home" className="back-to-top">
-          BACK TO TOP ↑
-        </a>
-      </footer>
+/* ---------- Pure CSS/SVG dress shape (no images) ---------- */
+function DressSVG({ color, accent }) {
+  return (
+    <svg viewBox="0 0 200 340" className="dress-svg" aria-hidden="true">
+      <defs>
+        <linearGradient id={`g-${color.replace("#", "")}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={accent} />
+          <stop offset="55%" stopColor={color} />
+          <stop offset="100%" stopColor="#000" stopOpacity="0.55" />
+        </linearGradient>
+      </defs>
 
-      <a href="#collection" className="floating-bag" aria-label="Shop collection">
-        <ShoppingBag size={20} />
-      </a>
-    </main>
+      {/* shoulders / bodice */}
+      <path
+        d="M70 40 Q100 20 130 40 L140 90 Q100 110 60 90 Z"
+        fill={`url(#g-${color.replace("#", "")})`}
+      />
+      {/* straps */}
+      <path d="M78 42 Q100 12 122 42" stroke={accent} strokeWidth="3" fill="none" />
+      {/* waist */}
+      <path d="M60 90 Q100 105 140 90 L138 130 Q100 145 62 130 Z" fill={color} opacity="0.95" />
+      {/* flowing skirt */}
+      <path
+        d="M62 128 Q40 220 20 320 Q100 340 180 320 Q160 220 138 128 Q100 150 62 128 Z"
+        fill={`url(#g-${color.replace("#", "")})`}
+      />
+      {/* fold highlights */}
+      <path d="M100 145 Q95 240 90 320" stroke={accent} strokeOpacity="0.35" strokeWidth="2" fill="none" />
+      <path d="M120 145 Q128 240 140 320" stroke="#000" strokeOpacity="0.25" strokeWidth="2" fill="none" />
+    </svg>
   );
 }
