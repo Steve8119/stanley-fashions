@@ -17,6 +17,11 @@ import {
   Mail,
   Phone,
   ChevronRight,
+  ShoppingBag,
+  UserRound,
+  Search,
+  X,
+  Menu,
 } from "lucide-react";
 
 import Header from "./components/Header";
@@ -1051,31 +1056,7 @@ export default function App() {
       />
 
       <Toast toast={toast} />
-      {/* MOBILE BOTTOM NAV */}
-<nav className="sf-bottom-nav">
-  <button className="sf-bottom-nav-item" onClick={() => scrollToSection("home")}>
-    <Sparkles size={20} />
-    <span>Home</span>
-  </button>
-  <button className="sf-bottom-nav-item" onClick={() => openShop("All")}>
-    <Shirt size={20} />
-    <span>Shop</span>
-  </button>
-  <button className="sf-bottom-nav-item" onClick={() => setWishlistOpen(true)}>
-    <Heart size={20} />
-    <span>Wishlist</span>
-    {wishlist.length > 0 && <span className="sf-counter">{wishlist.length}</span>}
-  </button>
-  <button className="sf-bottom-nav-item" onClick={() => setCartOpen(true)}>
-    <ShoppingBag size={20} />
-    <span>Cart</span>
-    {cartCount > 0 && <span className="sf-counter">{cartCount}</span>}
-  </button>
-  <button className="sf-bottom-nav-item" onClick={() => setAccountOpen(true)}>
-    <UserRound size={20} />
-    <span>Account</span>
-  </button>
-</nav>
+      
     </div>
   );
 }
