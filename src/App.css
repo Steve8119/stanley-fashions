@@ -5544,3 +5544,586 @@ textarea::placeholder {
 /* =========================================================
    END OF STYLESHEET — Total ~7000 lines
 ========================================================= */
+
+
+/* =====================================================
+   STANLEY FASHIONS — PREMIUM HOMEPAGE UPGRADE
+   Append to the very bottom of App.css
+===================================================== */
+
+:root {
+  --c-accent: #a87543;
+  --c-accent-dark: #80552f;
+  --c-accent-light: #f7efe6;
+  --c-accent-soft: #ead9c5;
+  --c-snow: #fbf9f6;
+  --c-cloud: #f1ede7;
+  --font-editorial: "Playfair Display", Georgia, serif;
+}
+
+/* Overall visual refinement */
+body {
+  background: #fbf9f6;
+  color: #191714;
+}
+
+.sf-app {
+  background: #fbf9f6;
+}
+
+.sf-container,
+.hp-hero,
+.hp-section {
+  max-width: 1480px;
+}
+
+/* Announcement bar */
+.sf-announcement {
+  min-height: 34px;
+  background: #191714;
+  color: #f8f2e9;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+}
+
+/* Elegant sticky header */
+.sf-header {
+  min-height: 78px;
+  padding: 14px clamp(18px, 4vw, 64px);
+  background: rgba(251, 249, 246, 0.96);
+  border-bottom: 1px solid #e8e0d6;
+  backdrop-filter: blur(16px);
+}
+
+.sf-brand-symbol {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #191714;
+}
+
+.sf-brand:hover .sf-brand-symbol {
+  background: #a87543;
+}
+
+.sf-brand-name strong {
+  font-size: 13px;
+  letter-spacing: 0.19em;
+}
+
+.sf-brand-name small {
+  font-size: 8px;
+  letter-spacing: 0.25em;
+}
+
+.sf-nav {
+  gap: clamp(18px, 2.4vw, 38px);
+}
+
+.sf-nav-link {
+  font-size: 12px;
+  letter-spacing: 0.045em;
+  color: #39332c;
+}
+
+.sf-nav-link:hover {
+  color: #a87543;
+}
+
+.sf-nav-link::after {
+  background: #a87543;
+  height: 1px;
+}
+
+.sf-icon-button {
+  border-radius: 50%;
+}
+
+.sf-icon-button:hover {
+  background: #eee5da;
+}
+
+/* Main editorial hero */
+.hp-hero {
+  max-width: 1480px;
+  padding: clamp(42px, 6vw, 92px) clamp(20px, 5vw, 76px);
+  gap: clamp(32px, 5vw, 80px);
+  background: #fbf9f6;
+}
+
+.hp-hero-left {
+  gap: 0;
+}
+
+.hp-hero-eyebrow {
+  color: #94714f;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  margin-bottom: 26px;
+}
+
+.hp-hero-eyebrow-line {
+  background: #a87543;
+  width: 34px;
+}
+
+.hp-hero-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(48px, 5.8vw, 86px);
+  font-weight: 500;
+  line-height: 0.99;
+  letter-spacing: -0.055em;
+  color: #201b16;
+  margin-bottom: 28px;
+  max-width: 680px;
+}
+
+.hp-hero-title em {
+  color: #a87543;
+  font-weight: 500;
+}
+
+.hp-hero-sub {
+  max-width: 440px;
+  color: #777067;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.95;
+  margin-bottom: 32px;
+}
+
+.hp-hero-cta {
+  gap: 12px;
+  margin-bottom: 34px;
+}
+
+.hp-btn {
+  min-height: 52px;
+  padding: 16px 25px;
+  border-radius: 2px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  transition:
+    background 220ms ease,
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.hp-btn-primary {
+  background: #201b16;
+  color: #fff;
+}
+
+.hp-btn-primary:hover {
+  background: #a87543;
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+.hp-btn-ghost,
+.hp-btn-outline {
+  border: 1px solid #c9b9a6;
+  color: #29231d;
+  background: transparent;
+}
+
+.hp-btn-ghost:hover,
+.hp-btn-outline:hover {
+  background: #eee5da;
+  color: #201b16;
+}
+
+/* Fashion campaign image composition */
+.hp-hero-right {
+  min-width: 0;
+}
+
+.hp-hero-image-stack {
+  overflow: visible;
+  height: clamp(420px, 48vw, 650px);
+}
+
+.hp-hero-img-main,
+.hp-hero-img-sub {
+  overflow: hidden;
+}
+
+.hp-hero-img-main img,
+.hp-hero-img-sub img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms ease;
+}
+
+.hp-hero-img-main:hover img,
+.hp-hero-img-sub:hover img {
+  transform: scale(1.035);
+}
+
+.hp-hero-float-card {
+  background: #fbf9f6;
+  border: 1px solid #e8e0d6;
+  border-radius: 2px;
+  box-shadow: 0 16px 45px rgba(39, 29, 19, 0.09);
+  padding: 18px 22px;
+}
+
+/* Trust / benefits strip */
+.sf-benefits,
+.sf-benefit-strip {
+  background: #f1ebe2;
+  border-top: 1px solid #e6dbce;
+  border-bottom: 1px solid #e6dbce;
+}
+
+/* Section headings */
+.hp-section {
+  padding: clamp(52px, 7vw, 96px) clamp(20px, 4vw, 56px);
+}
+
+.hp-section-head {
+  margin-bottom: 32px;
+}
+
+.hp-section-head h2,
+.hp-editorial-content h2,
+.hp-spotlight-content h2,
+.hp-story-content h2 {
+  font-family: var(--font-editorial);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+.hp-section-head h2 {
+  font-size: clamp(32px, 3.5vw, 49px);
+  line-height: 1.1;
+  color: #201b16;
+}
+
+.hp-section-head p {
+  color: #80776c;
+  margin-top: 8px;
+}
+
+.hp-eyebrow {
+  color: #a87543;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+}
+
+/* Product cards */
+.sf-product-card {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sf-product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: none;
+}
+
+.sf-product-image-wrap {
+  border-radius: 2px;
+  background: #eee8df;
+  aspect-ratio: 3 / 4;
+}
+
+.sf-product-image {
+  transition: transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.sf-product-card:hover .sf-product-image {
+  transform: scale(1.045);
+}
+
+.sf-wishlist-button {
+  border-radius: 50%;
+  background: rgba(251, 249, 246, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.sf-quick-add {
+  border-radius: 0;
+  letter-spacing: 0.1em;
+}
+
+.sf-product-info,
+.sf-product-details {
+  padding-top: 13px;
+}
+
+.sf-product-name,
+.sf-product-title {
+  color: #28221c;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sf-product-price {
+  color: #201b16;
+  font-weight: 600;
+}
+
+/* Editorial campaign sections */
+.hp-editorial,
+.hp-spotlight,
+.hp-story {
+  border-radius: 0;
+}
+
+.hp-editorial {
+  margin: clamp(28px, 5vw, 68px) auto;
+  overflow: hidden;
+  background: #29231d;
+}
+
+.hp-editorial-content {
+  padding: clamp(30px, 5vw, 72px);
+}
+
+.hp-editorial-content h2,
+.hp-editorial-content p {
+  color: #fffaf3;
+}
+
+.hp-editorial-content h2 {
+  font-size: clamp(38px, 5vw, 66px);
+  line-height: 1.05;
+}
+
+.hp-editorial-content p {
+  color: #d4c9bb;
+  line-height: 1.9;
+}
+
+.hp-editorial-tags span {
+  color: #d0b18e;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+/* Lookbook images */
+.hp-look-item {
+  overflow: hidden;
+  border-radius: 0;
+  background: #eee8df;
+}
+
+.hp-look-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms ease;
+}
+
+.hp-look-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Brand story */
+.hp-story {
+  background: #eee6dc;
+  overflow: hidden;
+}
+
+.hp-story-content {
+  padding: clamp(30px, 5vw, 72px);
+}
+
+.hp-story-content h2 {
+  font-size: clamp(40px, 5vw, 66px);
+  line-height: 1.03;
+}
+
+.hp-story-content p {
+  line-height: 1.9;
+  color: #6d6256;
+}
+
+.hp-story-stats strong {
+  color: #8e623b;
+  font-family: var(--font-editorial);
+  font-size: clamp(25px, 3vw, 38px);
+  font-weight: 500;
+}
+
+/* Newsletter and footer */
+.sf-newsletter,
+.hp-newsletter {
+  background: #f1ebe2;
+}
+
+.sf-footer {
+  background: #201b16;
+  color: #f8f2e9;
+  border-top: 0;
+}
+
+.sf-footer h3,
+.sf-footer h4,
+.sf-footer strong {
+  color: #fffaf3;
+}
+
+.sf-footer p,
+.sf-footer a,
+.sf-footer li {
+  color: #c6b9aa;
+}
+
+.sf-footer a:hover {
+  color: #d6b18b;
+}
+
+/* Refined form fields */
+input,
+textarea,
+select {
+  accent-color: #a87543;
+}
+
+.sf-search-panel {
+  background: #fbf9f6;
+  border-color: #e8e0d6;
+}
+
+.sf-search-panel input {
+  border-radius: 2px;
+  background: #fffdf9;
+  border-color: #ddd1c3;
+}
+
+.sf-search-submit {
+  border-radius: 2px;
+  background: #201b16;
+}
+
+.sf-search-submit:hover {
+  background: #a87543;
+}
+
+/* Smooth appearance */
+@keyframes sfReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hp-hero-left {
+  animation: sfReveal 650ms ease both;
+}
+
+.hp-hero-right {
+  animation: sfReveal 800ms ease both;
+}
+
+/* Tablet */
+@media (min-width: 640px) {
+  .hp-section-head {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .sf-product-grid {
+    gap: 20px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .hp-hero {
+    grid-template-columns: 0.95fr 1.05fr;
+    min-height: 650px;
+  }
+
+  .sf-header {
+    padding-left: clamp(32px, 5vw, 76px);
+    padding-right: clamp(32px, 5vw, 76px);
+  }
+
+  .hp-section {
+    padding-top: 88px;
+    padding-bottom: 88px;
+  }
+
+  .sf-product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+  .sf-header {
+    min-height: 66px;
+    padding: 10px 15px;
+  }
+
+  .hp-hero {
+    padding: 36px 20px 44px;
+    gap: 28px;
+  }
+
+  .hp-hero-title {
+    font-size: clamp(45px, 12vw, 64px);
+    line-height: 1.02;
+  }
+
+  .hp-hero-sub {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .hp-hero-image-stack {
+    height: 390px;
+  }
+
+  .hp-hero-cta {
+    align-items: stretch;
+  }
+
+  .hp-hero-cta .hp-btn {
+    flex: 1 1 auto;
+  }
+
+  .hp-section {
+    padding: 48px 16px;
+  }
+
+  .hp-section-head h2 {
+    font-size: 34px;
+  }
+
+  .sf-product-grid {
+    gap: 12px;
+  }
+
+  .sf-product-name,
+  .sf-product-title {
+    font-size: 12px;
+  }
+
+  .hp-editorial-content,
+  .hp-story-content {
+    padding: 30px 22px;
+  }
+
+  .sf-bottom-nav {
+    background: rgba(251, 249, 246, 0.98);
+    border-color: #e8e0d6;
+  }
+}
+
+/* Respect accessibility preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hp-hero-left,
+  .hp-hero-right {
+    animation: none;
+  }
+}

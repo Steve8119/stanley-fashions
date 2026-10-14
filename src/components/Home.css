@@ -1,0 +1,1070 @@
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap");
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
+
+.fashion-home {
+  --slide-color: #176b48;
+  --slide-accent: #d5f29a;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  color: #fff;
+  background: var(--slide-color);
+  transition: background-color 1s ease;
+}
+
+.fashion-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.background-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.background-active {
+  opacity: 1;
+}
+
+.fashion-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 75% 38%, transparent 0%, rgba(0, 0, 0, 0.08) 70%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1), transparent 65%);
+}
+
+.fashion-header {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  min-height: 88px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.fashion-logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+.fashion-logo span {
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.fashion-logo i {
+  color: var(--slide-accent);
+  font-size: 27px;
+  font-style: normal;
+  transition: color 0.8s ease;
+}
+
+.fashion-nav {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.fashion-nav a,
+.header-shop-link {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.fashion-nav a:hover,
+.header-shop-link:hover {
+  color: var(--slide-accent);
+}
+
+.fashion-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-shop-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+}
+
+.fashion-menu-toggle {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* HERO LAYOUT */
+
+.fashion-hero {
+  position: relative;
+  z-index: 1;
+  min-height: min(760px, calc(100svh - 88px));
+  min-height: clamp(640px, calc(100svh - 88px), 900px);
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  align-items: center;
+  padding: 35px 7% 105px;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 5;
+  max-width: 580px;
+  padding-top: 10px;
+  animation: copyEntrance 0.8s ease both;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 26px;
+  color: var(--slide-accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  transition: color 0.8s ease;
+}
+
+.eyebrow-line {
+  display: block;
+  width: 34px;
+  height: 1px;
+  background: currentColor;
+}
+
+.hero-title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(70px, 8.2vw, 124px);
+  font-weight: 500;
+  line-height: 0.91;
+  letter-spacing: -5px;
+}
+
+.hero-title span {
+  display: block;
+  overflow: hidden;
+  animation: titleEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-title span:nth-child(2) {
+  animation-delay: 0.12s;
+  color: var(--slide-accent);
+  transition: color 0.8s ease;
+}
+
+.hero-subtitle {
+  margin: 32px 0 15px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.hero-description {
+  max-width: 355px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 26px;
+  margin-top: 33px;
+}
+
+.hero-shop-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  min-height: 54px;
+  padding: 0 22px;
+  color: #172019;
+  background: #fff;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.hero-shop-button:hover {
+  transform: translateY(-4px);
+  background: var(--slide-accent);
+}
+
+.hero-discover-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.hero-discover-button svg {
+  transition: transform 0.25s ease;
+}
+
+.hero-discover-button:hover svg {
+  transform: translateY(4px);
+}
+
+.hero-mini-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 55px;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+}
+
+.mini-note-star {
+  color: var(--slide-accent);
+  font-size: 22px;
+}
+
+/* MODEL STAGE */
+
+.hero-visual {
+  position: relative;
+  height: min(670px, 76vh);
+  min-height: 470px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+.visual-color-disc {
+  position: absolute;
+  z-index: -1;
+  width: min(38vw, 490px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 0 0 100px rgba(255, 255, 255, 0.05),
+    0 0 120px rgba(0, 0, 0, 0.05);
+  animation: discFloat 8s ease-in-out infinite;
+}
+
+.visual-orbit {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orbit-one {
+  width: 110%;
+  height: 65%;
+  transform: rotate(-30deg);
+}
+
+.orbit-two {
+  width: 105%;
+  height: 80%;
+  transform: rotate(35deg);
+}
+
+.model-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  animation: modelStageEntrance 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.model-glow {
+  position: absolute;
+  z-index: -1;
+  bottom: 4%;
+  width: 65%;
+  height: 12%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.17);
+  filter: blur(38px);
+}
+
+.fashion-model {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 650px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(15px 25px 30px rgba(0, 0, 0, 0.18));
+  animation: modelRotate 1.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 50% 60%;
+}
+
+.model-shadow {
+  position: absolute;
+  bottom: 3%;
+  left: 25%;
+  width: 50%;
+  height: 3%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  filter: blur(15px);
+}
+
+.vertical-fashion-label {
+  position: absolute;
+  top: 50%;
+  right: -3%;
+  z-index: 4;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.model-floating-label {
+  position: absolute;
+  z-index: 5;
+  right: -1%;
+  bottom: 15%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 20px;
+  color: #202020;
+  background: #fff;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  animation: floatingLabelEntrance 1s 0.35s ease both;
+}
+
+.floating-label-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--slide-color);
+  transition: background-color 0.8s ease;
+}
+
+.model-floating-label > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.model-floating-label strong {
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.model-index {
+  position: absolute;
+  bottom: 3%;
+  left: 2%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.index-divider {
+  width: 35px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.model-index span:last-child {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.visual-bottom-note {
+  position: absolute;
+  right: 2%;
+  bottom: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.visual-bottom-note span:last-child {
+  color: var(--slide-accent);
+  transition: color 0.8s ease;
+}
+
+/* SLIDE NAVIGATION */
+
+.fashion-pagination {
+  position: absolute;
+  z-index: 10;
+  right: 7%;
+  bottom: 38px;
+  left: 7%;
+  display: flex;
+  gap: 32px;
+}
+
+.pagination-item {
+  width: 125px;
+  padding: 0;
+  border: 0;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pagination-number {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.pagination-name {
+  display: block;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.pagination-track {
+  display: block;
+  width: 100%;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.pagination-progress {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--slide-accent);
+}
+
+.pagination-active .pagination-progress {
+  animation: paginationFill 5.5s linear forwards;
+}
+
+.pagination-active .pagination-number {
+  color: var(--slide-accent);
+}
+
+.hero-side-caption {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* MARQUEE */
+
+.fashion-marquee {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  padding: 19px 0;
+  color: #202020;
+  background: #f5f0e7;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeMove 35s linear infinite;
+}
+
+.marquee-track > span {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding-right: 28px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.marquee-track i {
+  color: #9e2335;
+  font-size: 17px;
+  font-style: normal;
+}
+
+/* COLLECTION */
+
+.collection-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 95px 8%;
+  color: #202020;
+  background: #fffdf9;
+}
+
+.section-kicker {
+  color: #858078;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.collection-preview h2 {
+  margin: 16px 0 12px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+
+.collection-preview p {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.collection-color-buttons {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+}
+
+.collection-color-button {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 0;
+  border: 0;
+  border-bottom: 1px solid #e9e5df;
+  color: #292929;
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.collection-color-button > span {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+}
+
+.collection-color-button svg {
+  margin-left: auto;
+}
+
+.collection-color-button:hover > span {
+  transform: scale(1.35);
+}
+
+.fashion-about {
+  padding: 85px 8%;
+  color: #fff;
+  background: #171717;
+  text-align: center;
+}
+
+.fashion-about > span {
+  color: #c9a96e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.fashion-about p {
+  max-width: 650px;
+  margin: 22px auto 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(26px, 4vw, 45px);
+  line-height: 1.3;
+}
+
+.fashion-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 32px 7%;
+  color: #fff;
+  background: #111;
+}
+
+.footer-logo {
+  font-size: 16px;
+}
+
+.fashion-footer p {
+  color: #aaa;
+  font-size: 11px;
+}
+
+.back-to-top {
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+}
+
+.floating-bag {
+  position: fixed;
+  z-index: 30;
+  right: 22px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 49px;
+  height: 49px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  color: #222;
+  background: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+  text-decoration: none;
+  transition: transform 0.25s ease;
+}
+
+.floating-bag:hover {
+  transform: translateY(-4px);
+}
+
+/* ANIMATIONS */
+
+@keyframes modelRotate {
+  0% {
+    opacity: 0;
+    transform: translateX(100px) rotateY(65deg) rotateZ(5deg) scale(0.83);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateX(-10px) rotateY(-12deg) rotateZ(-2deg) scale(1.03);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg) rotateZ(0deg) scale(1);
+  }
+}
+
+@keyframes modelStageEntrance {
+  0% {
+    transform: translateX(35px) scale(0.94);
+  }
+
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes copyEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes titleEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(65px) skewY(4deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+  }
+}
+
+@keyframes floatingLabelEntrance {
+  0% {
+    opacity: 0;
+    transform: translate(25px, 12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes discFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-15px) scale(1.025);
+  }
+}
+
+@keyframes paginationFill {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes marqueeMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* TABLETS */
+
+@media (max-width: 1000px) {
+  .fashion-header {
+    padding: 0 5%;
+  }
+
+  .fashion-nav {
+    gap: 18px;
+  }
+
+  .fashion-hero {
+    padding-right: 5%;
+    padding-left: 5%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-title {
+    font-size: clamp(65px, 8vw, 90px);
+    letter-spacing: -3px;
+  }
+
+  .hero-visual {
+    height: 580px;
+    min-height: 450px;
+  }
+
+  .model-floating-label {
+    right: -2%;
+    padding: 13px;
+  }
+
+  .fashion-pagination {
+    right: 5%;
+    left: 5%;
+  }
+}
+
+/* MOBILE NAVIGATION */
+
+@media (max-width: 700px) {
+  .fashion-header {
+    min-height: 72px;
+    padding: 0 6%;
+  }
+
+  .fashion-logo {
+    font-size: 17px;
+  }
+
+  .fashion-logo span {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .header-shop-link {
+    display: none;
+  }
+
+  .fashion-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fashion-nav {
+    position: absolute;
+    top: 71px;
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 12px 6% 20px;
+    background: #17271f;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .fashion-nav.nav-open {
+    display: flex;
+  }
+
+  .fashion-nav a {
+    padding: 17px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .fashion-hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding: 53px 7% 112px;
+  }
+
+  .hero-copy {
+    padding-top: 0;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 22px;
+    font-size: 9px;
+  }
+
+  .hero-title {
+    font-size: clamp(65px, 15vw, 105px);
+    letter-spacing: -3px;
+  }
+
+  .hero-subtitle {
+    margin-top: 25px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .hero-description {
+    max-width: 320px;
+    font-size: 12px;
+  }
+
+  .hero-buttons {
+    gap: 18px;
+    margin-top: 25px;
+  }
+
+  .hero-shop-button {
+    min-height: 49px;
+    padding: 0 16px;
+    gap: 13px;
+  }
+
+  .hero-mini-note {
+    margin-top: 28px;
+    font-size: 7px;
+  }
+
+  .hero-visual {
+    height: 470px;
+    min-height: 0;
+    margin-top: 10px;
+  }
+
+  .visual-color-disc {
+    width: 78vw;
+  }
+
+  .fashion-model {
+    max-height: 480px;
+  }
+
+  .vertical-fashion-label {
+    right: 0;
+    font-size: 7px;
+  }
+
+  .model-floating-label {
+    right: 0;
+    bottom: 13%;
+    padding: 12px 14px;
+  }
+
+  .model-floating-label strong {
+    font-size: 14px;
+  }
+
+  .model-index {
+    bottom: 1%;
+  }
+
+  .visual-bottom-note {
+    bottom: 1%;
+    font-size: 7px;
+  }
+
+  .fashion-pagination {
+    right: 7%;
+    bottom: 28px;
+    left: 7%;
+    gap: 14px;
+  }
+
+  .pagination-item {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pagination-name {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .hero-side-caption {
+    display: none;
+  }
+
+  .collection-preview {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    padding: 65px 7%;
+  }
+
+  .collection-color-buttons {
+    width: 100%;
+  }
+
+  .fashion-about {
+    padding: 65px 7%;
+  }
+
+  .fashion-footer {
+    flex-wrap: wrap;
+    padding: 28px 6%;
+  }
+
+  .fashion-footer p {
+    order: 3;
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+/* SMALL PHONES */
+
+@media (max-width: 380px) {
+  .fashion-hero {
+    padding-right: 6%;
+    padding-left: 6%;
+  }
+
+  .hero-title {
+    font-size: 61px;
+  }
+
+  .hero-buttons {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero-visual {
+    height: 400px;
+  }
+
+  .fashion-pagination {
+    gap: 10px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
