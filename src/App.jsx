@@ -201,7 +201,7 @@ const DRESSES = [
   },
 ];
 
-const ROTATION_MS = 600; // 5.5 seconds per dress
+const ROTATION_MS = 1000; // 5.5 seconds per dress
 
 /* =========================================================
    DRESS FIGURE — shows your actual dress image
